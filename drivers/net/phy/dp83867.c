@@ -1173,6 +1173,21 @@ static int dp83867_led_polarity_set(struct phy_device *phydev, int index,
 			  DP83867_LED_POLARITY(index), polarity);
 }
 
+static int dp83867_cable_test_start(struct phy_device* phydev)
+{
+	return -1;
+}
+
+static int dp83867_cable_test_tdr_start(struct phy_device* phydev, const struct phy_tdr_config* config)
+{
+	return -1;
+}
+
+static int dp83867_cable_test_get_status(struct phy_device* phydev, bool* finished)
+{
+	return -1;
+}
+
 static struct phy_driver dp83867_driver[] = {
 	{
 		.phy_id		= DP83867_PHY_ID,
@@ -1206,6 +1221,11 @@ static struct phy_driver dp83867_driver[] = {
 		.led_hw_control_set = dp83867_led_hw_control_set,
 		.led_hw_control_get = dp83867_led_hw_control_get,
 		.led_polarity_set = dp83867_led_polarity_set,
+
+		/* Cable Test*/
+		.cable_test_start = dp83867_cable_test_start,
+		.cable_test_tdr_start = dp83867_cable_test_tdr_start,
+		.cable_test_get_status = dp83867_cable_test_get_status
 	},
 };
 module_phy_driver(dp83867_driver);
