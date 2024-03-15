@@ -1287,15 +1287,40 @@ static int dp83867_led_polarity_set(struct phy_device *phydev, int index,
 			  DP83867_LED_POLARITY(index), polarity);
 }
 
-static int dp83867_cable_test_start(struct phy_device* phydev)
-{
-	phydev->
-	return -1;
-}
-
 static int dp83867_cable_test_tdr_start(struct phy_device* phydev, const struct phy_tdr_config* config)
 {
-	return -1;
+	if (!phydev)
+	{
+		return -EINVAL;
+	}
+
+	if (!config)
+	{
+		return -EINVAL;
+	}
+
+	int val = phy_read(phydev, DP83867_CFG3);
+
+	if (!(val & DP83867_CFG3_TDR_DONE))
+	{
+		int err = phy_write(phydev, DP83867_CFG3, val | DP83867_CFG3_TDR_START)
+		if (err)
+		{
+			return  err;
+		}
+	}
+
+	return 0;
+}
+
+static int dp83867_cable_test_start(struct phy_device* phydev)
+{
+	if (!phydev)
+	{
+		return -EINVAL;
+	}
+
+	return 0;
 }
 
 static int dp83867_cable_test_get_status(struct phy_device* phydev, bool* finished)
